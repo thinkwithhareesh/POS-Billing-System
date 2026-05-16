@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hareesh Restaurant POS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- QR Code generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i data-lucide="leaf"></i>
+                <h2>Hareesh Restaurant</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active" data-view="pos"><i data-lucide="layout-grid"></i> Point of Sale</li>
+                <li data-view="menu"><i data-lucide="utensils-crossed"></i> Manage Menu</li>
+                <li data-view="reports"><i data-lucide="bar-chart-3"></i> Sales Reports</li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- POS View -->
+            <section id="pos-view" class="view-section active">
+                <div class="pos-container">
+                    <div class="menu-area">
+                        <header class="section-header">
+                            <h1>Menu</h1>
+                            <p>Select items to add to cart</p>
+                        </header>
+                        <div class="menu-grid" id="pos-menu-grid">
+                            <!-- Items populated by JS -->
+                        </div>
+                    </div>
+                    
+                    <div class="cart-area">
+                        <div class="cart-card glass-panel">
+                            <h2>Current Order</h2>
+                            <div class="cart-items" id="cart-items">
+                                <!-- Cart items populated by JS -->
+                            </div>
+                            <div class="cart-summary">
+                                <div class="summary-row">
+                                    <span>Subtotal</span>
+                                    <span id="cart-subtotal">₹0.00</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Tax (5%)</span>
+                                    <span id="cart-tax">₹0.00</span>
+                                </div>
+                                <div class="summary-row total">
+                                    <span>Total</span>
+                                    <span id="cart-total">₹0.00</span>
+                                </div>
+                            </div>
+                            <div class="cart-actions">
+                                <button id="btn-clear-cart" class="btn btn-outline">Clear</button>
+                                <button id="btn-print-bill" class="btn btn-secondary">Print</button>
+                                <button id="btn-pay-now" class="btn btn-primary">Pay Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manage Menu View -->
+            <section id="menu-view" class="view-section">
+                <header class="section-header">
+                    <h1>Manage Menu</h1>
+                    <p>Add, edit, or remove menu items</p>
+                </header>
+                <div class="menu-management-layout">
+                    <div class="add-item-form glass-panel">
+                        <h3>Add New Item</h3>
+                        <form id="add-menu-form">
+                            <div class="form-group">
+                                <label for="item-name">Item Name</label>
+                                <input type="text" id="item-name" required placeholder="e.g. Appam">
+                            </div>
+                            <div class="form-group">
+                                <label for="item-price">Price (₹)</label>
+                                <input type="number" id="item-price" required min="0" step="0.5">
+                            </div>
+                            <div class="form-group">
+                                <label for="item-image">Image URL</label>
+                                <input type="text" id="item-image" placeholder="Image URL or local path">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Add Item</button>
+                        </form>
+                    </div>
+                    <div class="menu-list glass-panel">
+                        <h3>Current Menu</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="manage-menu-tbody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports View -->
+            <section id="reports-view" class="view-section">
+                <header class="section-header">
+                    <h1>Sales Reports</h1>
+                    <p>Monthly revenue and performance</p>
+                </header>
+                <div class="reports-layout">
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon"><i data-lucide="indian-rupee"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Revenue</h3>
+                            <p id="total-revenue-display">₹0.00</p>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon"><i data-lucide="shopping-bag"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Orders</h3>
+                            <p id="total-orders-display">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="recent-orders glass-panel mt-4">
+                    <h3>Recent Transactions</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Date & Time</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reports-tbody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Payment Modal -->
+    <div class="modal-overlay" id="payment-modal">
+        <div class="modal glass-panel">
+            <button class="modal-close" id="close-payment"><i data-lucide="x"></i></button>
+            <h2>Scan to Pay</h2>
+            <div class="qr-container" id="qrcode"></div>
+            <p class="payment-amount">Total: <span id="payment-total">₹0.00</span></p>
+            <button id="btn-complete-payment" class="btn btn-primary w-100 mt-4">Mark as Paid</button>
+        </div>
+    </div>
+
+    <!-- Printable Receipt (Hidden from normal view) -->
+    <div id="printable-receipt" class="printable-receipt">
+        <div class="receipt-header">
+            <h2>Hareesh Restaurant</h2>
+            <p>Authentic South Indian Cuisine</p>
+            <p class="receipt-date" id="receipt-date"></p>
+        </div>
+        <div class="receipt-items" id="receipt-items"></div>
+        <div class="receipt-summary">
+            <div class="receipt-row"><span>Subtotal:</span> <span id="receipt-subtotal"></span></div>
+            <div class="receipt-row"><span>Tax (5%):</span> <span id="receipt-tax"></span></div>
+            <div class="receipt-row receipt-total"><span>Total:</span> <span id="receipt-total"></span></div>
+        </div>
+        <div class="receipt-footer">
+            <p>Thank you for your visit!</p>
+            <p>Visit again.</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
