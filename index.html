@@ -13,9 +13,20 @@
 </head>
 <body>
     <div id="app">
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <div class="mobile-logo">
+                <i data-lucide="leaf"></i>
+                <h2>Hareesh</h2>
+            </div>
+            <button id="hamburger-btn" class="hamburger-btn">
+                <i data-lucide="menu"></i>
+            </button>
+        </header>
+
         <!-- Navigation -->
-        <nav class="sidebar">
-            <div class="logo">
+        <nav class="sidebar" id="sidebar">
+            <div class="logo desktop-only">
                 <i data-lucide="leaf"></i>
                 <h2>Hareesh Restaurant</h2>
             </div>
@@ -31,6 +42,14 @@
             
             <!-- POS View -->
             <section id="pos-view" class="view-section active">
+                <!-- Hero Section -->
+                <div class="hero-banner">
+                    <div class="hero-content">
+                        <h2>Welcome to Hareesh Restaurant</h2>
+                        <p>Authentic South Indian flavors, prepared fresh every day.</p>
+                    </div>
+                </div>
+
                 <div class="pos-container">
                     <div class="menu-area">
                         <header class="section-header">
@@ -155,6 +174,11 @@
                     </table>
                 </div>
             </section>
+
+            <!-- Footer -->
+            <footer class="app-footer">
+                <p>&copy; 2026 Hareesh Restaurant. Crafted with ❤️.</p>
+            </footer>
         </main>
     </div>
 

@@ -92,8 +92,7 @@ The project will start automatically in your browser.
 
 ## 📸 Screenshots
 
-<img width="1902" height="895" alt="AdobeExpressPhotos_bd9b7eae8c6a401a8aefecff25d2cb29_CopyEdited" src="https://github.com/user-attachments/assets/1100111d-c525-4f89-90c1-3e176402fbc9" />
-
+![POS Dashboard](assets/pos-screenshot.png)
 
 ## 📄 License
 This project is created for educational and restaurant management purposes.

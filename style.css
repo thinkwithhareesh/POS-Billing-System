@@ -42,13 +42,48 @@ h1, h2, h3 {
 /* Layout */
 #app {
     display: flex;
+    flex-direction: column;
     height: 100vh;
     overflow: hidden;
 }
 
+/* Mobile Header */
+.mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: var(--surface);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 20;
+}
+
+.mobile-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-dark);
+}
+
+.hamburger-btn {
+    background: transparent;
+    border: none;
+    color: var(--primary-dark);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
 /* Sidebar */
 .sidebar {
-    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 280px;
+    height: 100vh;
     background: var(--surface);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -56,7 +91,28 @@ h1, h2, h3 {
     display: flex;
     flex-direction: column;
     padding: 2rem 1rem;
-    z-index: 10;
+    z-index: 30;
+    transition: var(--transition);
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 25;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+.desktop-only {
+    display: none;
 }
 
 .logo {
@@ -131,12 +187,35 @@ h1, h2, h3 {
     color: var(--text-muted);
 }
 
+/* Hero Section */
+.hero-banner {
+    margin-bottom: 2rem;
+    padding: 2.5rem 1.5rem;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+    color: white;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+}
+
+.hero-banner h2 {
+    color: white;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.hero-banner p {
+    font-size: 1rem;
+    opacity: 0.9;
+    color: var(--background);
+}
+
 /* POS Layout */
 .pos-container {
-    display: grid;
-    grid-template-columns: 1fr 350px;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
-    height: calc(100vh - 8rem);
+    height: auto;
 }
 
 .menu-area {
@@ -352,8 +431,8 @@ h1, h2, h3 {
 
 /* Menu Management Layout */
 .menu-management-layout {
-    display: grid;
-    grid-template-columns: 300px 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
 }
 
@@ -594,5 +673,53 @@ h1, h2, h3 {
         border-top: 1px dashed #000;
         padding-top: 10px;
         font-size: 12px;
+    }
+}
+
+/* Footer */
+.app-footer {
+    text-align: center;
+    padding: 2rem 0 1rem;
+    margin-top: 2rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+}
+
+/* --- Media Queries for Desktop --- */
+@media (min-width: 1024px) {
+    #app {
+        flex-direction: row;
+    }
+
+    .mobile-header {
+        display: none;
+    }
+
+    .sidebar {
+        position: static;
+        width: 250px;
+    }
+
+    .desktop-only {
+        display: flex;
+    }
+
+    .pos-container {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        /* Height adjustment considering the hero banner is taking space now. 
+           We use flex in main-content, so pos-container can naturally fill space. */
+        height: auto; 
+    }
+
+    .cart-area {
+        position: sticky;
+        top: 0;
+    }
+
+    .menu-management-layout {
+        display: grid;
+        grid-template-columns: 300px 1fr;
     }
 }

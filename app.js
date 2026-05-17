@@ -55,6 +55,26 @@ document.addEventListener('DOMContentLoaded', () => {
 function initNavigation() {
     const navLinks = document.querySelectorAll('.nav-links li');
     const views = document.querySelectorAll('.view-section');
+    
+    // Hamburger Menu Logic
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const sidebar = document.getElementById('sidebar');
+    
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    document.body.appendChild(overlay);
+
+    if (hamburgerBtn) {
+        hamburgerBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        });
+    }
+
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+    });
 
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
@@ -70,6 +90,12 @@ function initNavigation() {
                     view.classList.add('active');
                 }
             });
+
+            // Close sidebar on mobile
+            if (window.innerWidth < 1024) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            }
 
             // Re-render data if necessary
             if (targetView === 'reports') renderReports();
